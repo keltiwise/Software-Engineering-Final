@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/navigation-example.css') }}">
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>CS 188 Brewery Project</h1>
+    </div>
+    <div class="topnav"> 
+        {% for item in nav.top %}
+        <a class="{{ 'active' if item.is_active else '' }}" href="{{ item.url }}">{{ item.label }}</a>
+        {% endfor %} 
+    </div>
+    <div id="map">
+    </div>
+</body>
+<script>
+    var map = L.map('map').setView([41.6031, -93.6546], 16); 
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    {% for record in records %}
+    var redMarker = L.marker([{{ record.Latitude }}, {{ record.Longitude }}], {
+        icon: L.divIcon({
+            className: 'custom-div-icon',
+            html: "<div class='marker-dot' style='background-color: Maroon; border: 2px solid black; width: 10px; height: 10px; border-radius: 50%;'></div>",
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+        })
+    }).addTo(map);
+
+    redMarker.bindTooltip("Bar Name: {{ record.BarName }}, Positive Ratings: {{ record.PositiveRatings }}, Negative Ratings: {{ record.NegativeRatings }}");
+    {% endfor %}
+</script>
+</html>

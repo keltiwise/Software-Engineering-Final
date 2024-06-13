@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/navigation-example.css') }}">
+    <title>Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
+</head>
+<body>
+    <div class="header">
+        <h1>CS 188 Brewery Project</h1>
+    </div>
+    <div class="topnav"> 
+        {% for item in nav.top %}
+        <a class="{{ 'active' if item.is_active else '' }}" href="{{ item.url }}">{{ item.label }}</a>
+        {% endfor %} 
+    </div>
+    <br>
+    <textarea id="userInput" name="userInput" rows="10" cols="50"></textarea>
+    <br>
+    <button class="buttonAdd" onclick="addEntry()">Post Chat</button>
+    <div class="buttonContainer2">
+        <input id="chatIDdelete" class="inputDelete" placeholder="Enter Chat ID to Delete"> 
+        <input id="passwordDelete" type="password" class="inputAdd" placeholder="Enter Password">
+        <button class="buttonDelete" onclick="deleteEntry()">Delete</button>
+    </div>
+    <table id="chatTable" class="display">
+        <thead>
+            <tr>
+                <th>ChatID</th>
+                <th>Chat</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                <td>{{ record[0] }}</td>
+                <td>{{ record[1] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        $(document).ready(function() {
+            $('#chatTable').DataTable();
+        });
+
+        function addEntry() {
+            var userInput = document.getElementById('userInput').value;
+
+            fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'action=add&Chat=' + encodeURIComponent(userInput),
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    console.error('Error adding entry');
+                }
+            })
+            .then(data => {
+                if (data === "Entry added successfully") {
+                    window.location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+    function deleteEntry() {
+        var chat_ID = document.getElementById('chatIDdelete').value; 
+        var password = document.getElementById('passwordDelete').value;
+
+        if (password !== 'edit') { 
+            console.error('Incorrect password');
+            return; 
+        }
+
+        fetch('/chat', {  
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'action=delete&ChatID=' + encodeURIComponent(chat_ID),
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                console.error('Error deleting entry');
+            }
+        })
+        .then(data => {
+            if (data === "Entry deleted successfully") {
+                window.location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    </script>
+</body>
+</html>

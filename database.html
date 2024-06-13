@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/navigation-example.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <title>Database</title>
+</head>
+<body>
+    <div class="header">
+        <h1>CS 188 Brewery Project </h1>
+    </div>
+    <div class="topnav"> 
+        {% for item in nav.top %}
+        <a class="{{ 'active' if item.is_active else '' }}" href="{{ item.url }}">{{ item.label }}</a>
+        {% endfor %} 
+    </div>
+    <br>
+    <table id="barTable" class="display">
+        <thead>
+            <tr>
+                <th>BarID</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Name</th>
+                <th>Positive Ratings</th>
+                <th>Negative Ratings</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                <td>{{ record[0] }}</td>
+                <td>{{ record[1] }}</td>
+                <td>{{ record[2] }}</td>
+                <td>{{ record[3] }}</td>
+                <td>{{ record[4] }}</td>
+                <td>{{ record[5] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="buttonContainer">
+        <input id="updateID" class="inputUpdate" placeholder="Enter Bar ID"> 
+        <input id="updateLatitude" class="inputUpdate" placeholder="Enter New Latitude">
+        <input id="updateLongitude" class="inputUpdate" placeholder="Enter New Longitude">
+        <input id="updateName" class="inputUpdate" placeholder="Enter New Bar Name">
+        <input id="updatePositive" class="inputUpdate" placeholder="Enter Positive Ratings">
+        <input id="updateNegative" class="inputUpdate" placeholder="Enter Negative Ratings">
+        <input id="passwordUpdate" type="password" class="inputUpdate" placeholder="Enter Password"> 
+        <button class="buttonUpdate" onclick="updateEntry()">Update</button>
+    </div>
+
+    <div class="buttonContainer">
+        <input id="addLatitude" class="inputAdd" placeholder="Enter Latitude">
+        <input id="addLongitude" class="inputAdd" placeholder="Enter Longitude">
+        <input id="addName" class="inputAdd" placeholder="Enter Bar Name">
+        <input id="passwordAdd" type="password" class="inputAdd" placeholder="Enter Password"> 
+        <button class="buttonAdd" onclick="addEntry()">Add</button>
+    </div>
+    
+    <div class="buttonContainer">
+        <input id="barIDdelete" class="inputDelete" placeholder="Enter Bar ID"> 
+        <input id="passwordDelete" type="password" class="inputAdd" placeholder="Enter Password">
+        <button class="buttonDelete" onclick="deleteEntry()">Delete</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#barTable').DataTable();
+        });
+
+
+    function addEntry() {
+    var latitude = document.getElementById('addLatitude').value;
+    var longitude = document.getElementById('addLongitude').value;
+    var BarName = document.getElementById('addName').value;
+    var password = document.getElementById('passwordAdd').value; 
+    var BarName = document.getElementById('addName').value;
+    var password = document.getElementById('passwordAdd').value; 
+
+    if (password !== 'edit') { 
+        console.error('Incorrect password');
+        return; 
+    }
+
+    fetch('/database', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'action=add&Latitude=' + encodeURIComponent(latitude) + '&Longitude=' + encodeURIComponent(longitude) + '&BarName=' + encodeURIComponent(BarName),
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.reload();
+        } else {
+            console.error('Error adding entry');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+    }
+
+
+    function updateEntry() {
+    var barID = document.getElementById('updateID').value; 
+    var latitude = document.getElementById('updateLatitude').value;
+    var longitude = document.getElementById('updateLongitude').value;
+    var barname = document.getElementById('updateName').value;
+    var password = document.getElementById('passwordUpdate').value; 
+    var positive = document.getElementById('updatePositive').value;
+    var negative = document.getElementById('updateNegative').value; 
+
+    if (password !== 'edit') { 
+        console.error('Incorrect password');
+        return; 
+    }
+
+    fetch('/database', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'action=update&BarID=' + encodeURIComponent(barID) + '&Latitude=' + encodeURIComponent(latitude) + '&Longitude=' + encodeURIComponent(longitude) + 
+        '&BarName=' + encodeURIComponent(barname) + '&PositveRatings=' + encodeURIComponent(positive) + '&NegativeRatings=' + encodeURIComponent(negative),
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.reload();
+        } else {
+            console.error('Error updating entry');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+    }
+    
+    function deleteEntry() {
+    var BarID = document.getElementById('barIDdelete').value; 
+    var password = document.getElementById('passwordDelete').value;
+
+    if (password !== 'edit') { 
+        console.error('Incorrect password');
+        return; 
+    }
+
+    fetch('/database', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'action=delete&BarID=' + encodeURIComponent(BarID),
+    })
+    .then(response => {
+        if (response.ok) {
+            // Reload the page to reflect changes
+            window.location.reload();
+        } else {
+            // Handle error
+            console.error('Error deleting entry');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+    }
+    </script>
+</body>
+</html>

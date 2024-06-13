@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/navigation-example.css') }}">
+    <title>Review</title>
+</head>
+<body>
+    <div class="header">
+        <h1>CS 188 Brewery Project</h1>
+    </div>
+    <div class="topnav"> 
+        {% for item in nav.top %}
+        <a class="{{ 'active' if item.is_active else '' }}" href="{{ item.url }}">{{ item.label }}</a>
+        {% endfor %} 
+    </div>
+    <br>
+    <form action="#" method="post">
+        <select name="barID" style = "width: 300px;">
+            {% for bar in bars %}
+            <option value="{{ bar.BarID }}">{{ bar.BarName }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <textarea name="userInput" rows="10" cols="50"></textarea>
+        <br>
+        <button class="buttonAdd" onclick="addEntry()">Submit Review</button>
+    </form>
+</body>
+</html>

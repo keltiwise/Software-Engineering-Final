@@ -4,7 +4,7 @@ Using Azure DevOps and Python, my team and I developed a website to showcase bre
 
 ## Python Script
 Flask is a required dependency, used to link our Python script with Azure DevOps. Through Python, we developed our file, app.py, where we scritped how our app would run, including the Azure DevOps sentiment analysis. 
-
+[Contribution guidlines for this project](https://github.com/keltiwise/Software-Engineering-Final/blob/main/app.py)
 
 
 

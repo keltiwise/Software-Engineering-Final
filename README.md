@@ -4,6 +4,7 @@ Using Azure DevOps and Python, my team and I developed a website to showcase bre
 
 ## Azure SQL Connector
 This file connects SQL to our server
+
 [SQL Connector file found here](azuresqlconnect.py)
 
 ## Python Script

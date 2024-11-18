@@ -20,7 +20,7 @@ This branch includes all HTML files that corresponds to the website. Each HTML f
 ## Static/CSS
 This branch includes a CSS script to personalize the website. This script allowed us to change different features on the website, including font, margins, background color, etc. 
 
-[CSS branch found here](https://github.com/keltiwise/Software-Engineering-Final/blob/static-css/navigation-example.css)
+[CSS branch found here](https://github.com/keltiwise/Software-Engineering-Final/blob/static-css/README.md)
 
 
 

@@ -20,10 +20,10 @@ This branch includes all HTML files that corresponds to the website. Each HTML f
 ## Static/CSS
 This branch includes a CSS script to personalize the website. This script allowed us to change different features on the website, including font, margins, background color, etc. 
 
-[CSS branch found here]()
+[CSS branch found here](https://github.com/keltiwise/Software-Engineering-Final/blob/static-css/navigation-example.css)
 
 
 
 
-Link to the website: 
-https://cs188breweryflaskapp.azurewebsites.net/
+Link to the website[^1] 
+[^1]:https://cs188breweryflaskapp.azurewebsites.net/

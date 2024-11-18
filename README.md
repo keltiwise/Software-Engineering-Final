@@ -1,2 +1,5 @@
-# Software-Engineering-Final
-Software Engineering Final in which my team and I created a interactive website showing different breweries around the U.S.A.
+# Software Engineering Final
+## Static CSS
+Using this CSS file, we personalized our website by adding buttons, changing font, adjusting our borders and margins, and adding padding. Using CSS, we were able to control the size of the map, which showcases all breweries in the United States, to our liking and added hover features. 
+
+

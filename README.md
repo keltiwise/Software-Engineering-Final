@@ -10,7 +10,7 @@ Flask is a required dependency, used to link our Python script with Azure DevOps
 ## Templates
 This branch includes all HTML files that corresponds to the website. Each HTML file corresponds to an individual page on the website: About page, Chat page (can interact with other members that use this website), Database page, Home page, and the Review page.
 
-[Template branch found here]()
+[Template branch found here](https://github.com/keltiwise/Software-Engineering-Final/blob/templates/README.md)
 
 
 
